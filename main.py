@@ -1,7 +1,7 @@
 import json
 
 from flask import Flask, render_template, request, redirect, abort, url_for
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text, exc
 from sqlalchemy.orm import sessionmaker, scoped_session
 app = Flask(__name__)
 
@@ -108,13 +108,16 @@ def edit_post(id):
 
 @app.route("/comment_post/<int:id>", methods=['GET', 'POST'])
 def comment_post(id):
-    if request.method == 'POST':
-        comment = request.form.get('comment')
-        db.execute(text(
-            f"INSERT INTO commentaries (post_id, commentary_text) VALUES ({id}, '{comment}')"
-        ))
-        db.commit()
-        return redirect(url_for('post_detail', id=id))
+    try:
+        if request.method == 'POST':
+            comment = request.form.get('comment')
+            db.execute(text(
+                f"INSERT INTO commentaries (post_id, commentary_text) VALUES ({id}, '{comment}')"
+            ))
+            db.commit()
+            return redirect(url_for('post_detail', id=id))
+    except exc.SQLAlchemyError:
+        return "Вы ввели слишком длинный комментарий!"
     return render_template('post_detail.html')
 
 
