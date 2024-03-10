@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>
+<form method="post">
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Заголовок</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" required name="title">
+    </div>
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Текст поста</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" required name="description"></textarea>
+    </div>
+    <button class="btn btn-primary">Добавить</button>
+</form>
+</p>
+{% endblock %}

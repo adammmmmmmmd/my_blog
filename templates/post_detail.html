@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p>
+<div class="card" style="width: 50rem">
+  <div class="card-header">
+    <h3>{{ post.title }} {{ post.commentary_text }}</h3>
+    {{ post.username }} | {{ post.date_pub }} | ❤️ {{ post.like_count }}
+  </div>
+  <ul class="list-group list-group-flush">
+    <span style="margin: 10px"> {{ post.description }} </span>
+  </ul>
+</div>
+</p>
+
+<a href="{{ url_for('edit_post', id=post.id) }}" class="btn btn-primary">Редактировать пост</a>
+<a href="{{ url_for('delete_post', id=post.id) }}" class="btn btn-danger">Удалить пост</a>
+<p>
+<div style="width: 50rem;" class="card" style="width: 18rem;">
+  <div class="card-header">
+    Комментарии:
+  </div>
+  <ul class="list-group list-group-flush">
+    {% for commentary in post.commentaries %}
+    {% if commentary.text == None %} 
+      
+    {% else %}
+    <li class="list-group-item">{{ commentary.text }}</li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+</div>
+</p>
+<p>
+<form method="post" action="{{ url_for('comment_post', id=post.id) }}">
+  <div style="width: 50rem;" class="mb-3">
+    <label for="text" class="form-label">Введите комментарий</label>
+    <textarea class="form-control" rows="3" required name="comment"></textarea>
+    <div class="form-text">Будьте вежливы</div>
+  </div>
+  <button type="submit" class="btn btn-primary">Оставить комментарий</button>
+</form>
+</p>
+{% endblock %}

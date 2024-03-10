@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Latest posts</h1>
+{% for post in posts %}
+<p></p>
+<div style="width: 50rem" class="card">
+    <div class="card-header">
+        {{ post.username }} 
+    </div>
+    <div  class="card-body">
+        <h5 class="card-title">{{ post.title }}</h5>
+        <p class="card-text">{{ post.description }}</p>
+        <a href="{{ url_for('post_detail', id=post.id)}}" class="btn btn-primary">Читать</a>
+    </div>
+    <div class="card-footer text-body-secondary">
+        <p>
+            <form action="{{ url_for('like_post', id=post.id)}}" method="post">
+                <button type="submit" class="btn btn-primary position-relative">
+                    💖
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        {{ post.like_count }}
+                        <span class="visually-hidden">Likes number</span>
+                    </span>
+                </button> <span style="margin-left: 10px"> Posted on: {{ post.date_pub }} </span>
+            </form>
+        </p>
+    </div>
+
+</div>
+{% endfor %}
+<p></p>
+{% endblock %}
