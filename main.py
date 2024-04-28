@@ -81,6 +81,10 @@ def delete_post(id):
     try:
         db.execute(
             text(
+                f'DELETE FROM likes '
+                f'WHERE post_id = {id};'
+                f'DELETE FROM commentaries '
+                f'WHERE post_id = {id};'
                 f'DELETE FROM posts '
                 f'WHERE posts.id = {id};'
             ))
